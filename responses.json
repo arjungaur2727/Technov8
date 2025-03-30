@@ -1,0 +1,62 @@
+{
+    "greeting": [
+        "Hello! I'm here to support you with your mental health. How are you feeling today?",
+        "Hi there! I'm your mental health companion. How can I help you today?",
+        "Welcome! I'm here to listen and provide support. How are you doing?"
+    ],
+    "positive": [
+        "I'm glad to hear you're feeling good! Is there anything specific that's contributing to your positive mood?",
+        "That's wonderful to hear! Celebrating positive moments is important. Would you like to share more about it?",
+        "It's great that you're feeling positive. What has been going well for you lately?"
+    ],
+    "negative": [
+        "I'm sorry to hear you're feeling this way. Would you like to talk more about what's troubling you?",
+        "That sounds difficult. Remember that it's okay to feel this way, and sharing your feelings is a good first step.",
+        "I understand this is hard for you. Would some relaxation techniques help right now?"
+    ],
+    "neutral": [
+        "How has your day been so far? Is there anything specific on your mind?",
+        "Is there something particular you'd like to talk about today?",
+        "I'm here to listen. What's been on your mind recently?"
+    ],
+    "stress": [
+        "When you're feeling stressed, deep breathing can help. Try breathing in for 4 counts, hold for 4, and exhale for 6.",
+        "Stress can be overwhelming. Have you tried the 5-4-3-2-1 technique? Name 5 things you can see, 4 things you can touch, 3 things you can hear, 2 things you can smell, and 1 thing you can taste.",
+        "For stress relief, try progressive muscle relaxation: tense each muscle group for 5 seconds, then release and notice the difference."
+    ],
+    "anxiety": [
+        "Anxiety is often about future worries. Try focusing on the present moment - what can you see, hear, and feel right now?",
+        "When anxiety hits, grounding exercises can help. Try the 5-4-3-2-1 technique or focus on your breathing.",
+        "Remember that anxiety is temporary and will pass. Would you like to try a quick breathing exercise together?"
+    ],
+    "depression": [
+        "Depression can make everything feel overwhelming. Try breaking tasks into smaller, manageable steps.",
+        "Taking care of your physical needs is important when dealing with depression. Have you been able to eat, sleep, and move your body today?",
+        "Depression often involves negative thought patterns. Can you identify any thoughts that might not be fully accurate?"
+    ],
+    "seeking_advice": [
+        "Based on what you've shared, you might find it helpful to try journaling about your feelings.",
+        "Have you considered speaking with a mental health professional? They can provide personalized strategies for your situation.",
+        "Sometimes, a change in routine can help shift your perspective. Could you try adding a new short activity to your day?"
+    ],
+    "affirmation": [
+        "You're taking important steps by reaching out and talking about your feelings.",
+        "Your feelings are valid, and it takes courage to express them.",
+        "You have the strength to work through this, even when it doesn't feel like it."
+    ],
+    "crisis": [
+        "I'm concerned about what you're sharing. Please remember that help is available 24/7 through the National Suicide Prevention Lifeline at 988 or 1-800-273-8255.",
+        "What you're going through sounds really difficult. Please consider contacting a crisis helpline like the Crisis Text Line (text HOME to 741741) for immediate support.",
+        "Your safety is important. Please reach out to a mental health professional or go to your nearest emergency room if you're in immediate danger."
+    ],
+    "unknown": [
+        "I'm not sure I fully understand. Could you tell me more about how you're feeling?",
+        "I want to make sure I'm supporting you properly. Could you elaborate a bit more?",
+        "I'm listening, but I want to better understand your situation. Can you share more details?"
+    ],
+    "goodbye": [
+        "Thank you for chatting with me today. Remember to be kind to yourself.",
+        "I hope our conversation has been helpful. Feel free to return anytime you need support.",
+        "Take care of yourself. Remember that seeking support is a sign of strength, not weakness."
+    ]
+}

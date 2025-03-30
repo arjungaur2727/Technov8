@@ -1,4 +1,3 @@
-EOL   
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,7 +10,7 @@ EOL
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         .chat-container {
-            max-width: 700px;
+            max-width: 800px;
             margin: 30px auto;
             border-radius: 10px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
@@ -25,7 +24,7 @@ EOL
             border-bottom: 1px solid #e9ecef;
         }
         .chat-messages {
-            height: 350px;
+            height: 400px;
             overflow-y: auto;
             padding: 20px;
             background-color: #f8f9fa;
@@ -71,22 +70,60 @@ EOL
         .chat-input button:hover {
             background-color: #5a32a3;
         }
+        .disclaimer-section {
+            max-width: 800px;
+            margin: 0 auto 30px;
+            font-size: 0.8rem;
+            background-color: #f1f1f1;
+            padding: 15px;
+            border-radius: 5px;
+            text-align: center;
+        }
+        .crisis-alert {
+            background-color: #f8d7da;
+            color: #721c24;
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        .typing-indicator {
+            display: none;
+            color: #6c757d;
+            padding: 5px 15px;
+            font-style: italic;
+        }
     </style>
 </head>
 <body>
-    <div class="chat-container">
-        <div class="chat-header">
-            <h3>Mental Health Support Chatbot</h3>
-            <small class="text-light">A safe space to talk about your feelings</small>
-        </div>
-        <div class="chat-messages" id="chatMessages">
-            <div class="message bot-message">
-                Hello! I'm here to provide support and listen. How are you feeling today?
+    <div class="container">
+        <div class="chat-container">
+            <div class="chat-header">
+                <h3 class="mb-0">Mental Health Support Chatbot</h3>
+                <small class="text-light">A safe space to talk about your feelings</small>
+            </div>
+            <div class="chat-messages" id="chatMessages">
+                <!-- Messages will appear here -->
+                <div class="message bot-message">
+                    Hello! I'm here to provide support and listen. How are you feeling today?
+                </div>
+                <div class="typing-indicator" id="typingIndicator">
+                    Chatbot is typing...
+                </div>
+            </div>
+            <div class="chat-input">
+                <input type="text" id="userInput" placeholder="Type your message here...">
+                <button id="sendButton">Send</button>
             </div>
         </div>
-        <div class="chat-input">
-            <input type="text" id="userInput" placeholder="Type your message here...">
-            <button id="sendButton">Send</button>
+        
+        <div class="disclaimer-section" id="disclaimerSection">
+            <h5>Important Disclaimer</h5>
+            <p>This chatbot is not a substitute for professional mental health care. If you're experiencing a crisis or emergency, please contact a mental health professional immediately or use these resources:</p>
+            <ul style="list-style-type: none; padding: 0;">
+                <li><strong>National Suicide Prevention Lifeline:</strong> 988 or 1-800-273-8255</li>
+                <li><strong>Crisis Text Line:</strong> Text HOME to 741741</li>
+            </ul>
         </div>
     </div>
 
@@ -95,13 +132,27 @@ EOL
         const chatMessages = document.getElementById('chatMessages');
         const userInput = document.getElementById('userInput');
         const sendButton = document.getElementById('sendButton');
+        const typingIndicator = document.getElementById('typingIndicator');
         
         function addMessage(text, isUser) {
             const messageDiv = document.createElement('div');
             messageDiv.className = `message ${isUser ? 'user-message' : 'bot-message'}`;
             messageDiv.textContent = text;
-            chatMessages.appendChild(messageDiv);
+            
+            // Insert before typing indicator
+            chatMessages.insertBefore(messageDiv, typingIndicator);
+            
+            // Scroll to bottom
             chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+        
+        function showTypingIndicator() {
+            typingIndicator.style.display = 'block';
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+        
+        function hideTypingIndicator() {
+            typingIndicator.style.display = 'none';
         }
         
         function sendMessage() {
@@ -114,6 +165,9 @@ EOL
             // Clear input
             userInput.value = '';
             
+            // Show typing indicator
+            showTypingIndicator();
+            
             // Send message to server
             fetch('/chat', {
                 method: 'POST',
@@ -124,13 +178,35 @@ EOL
                     message: message
                 })
             })
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                return response.json();
+            })
             .then(data => {
+                // Hide typing indicator
+                hideTypingIndicator();
+                
+                // Add bot response to chat
                 addMessage(data.response, false);
+                
+                // Check for crisis keywords and add alert if necessary
+                if (data.response.includes('IMPORTANT:') || 
+                    message.toLowerCase().includes('suicide') || 
+                    message.toLowerCase().includes('kill myself')) {
+                    
+                    const alertDiv = document.createElement('div');
+                    alertDiv.className = 'crisis-alert';
+                    alertDiv.textContent = 'If you are experiencing a crisis, please contact emergency services or a crisis helpline immediately.';
+                    chatMessages.appendChild(alertDiv);
+                    chatMessages.scrollTop = chatMessages.scrollHeight;
+                }
             })
             .catch(error => {
                 console.error('Error:', error);
-                addMessage('Sorry, I encountered an error. Please try again.', false);
+                hideTypingIndicator();
+                addMessage('Sorry, I encountered an error. Please try again in a moment.', false);
             });
         }
         
@@ -146,8 +222,36 @@ EOL
         
         // Focus input on page load
         userInput.focus();
+        
+        // Fetch disclaimer
+        fetch('/disclaimer')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                const disclaimerSection = document.getElementById('disclaimerSection');
+                disclaimerSection.innerHTML = `<h5>${data.title}</h5>`;
+                
+                const disclaimerList = document.createElement('ul');
+                disclaimerList.style.listStyleType = 'none';
+                disclaimerList.style.padding = '0';
+                
+                data.content.forEach(item => {
+                    const listItem = document.createElement('li');
+                    listItem.textContent = item;
+                    listItem.style.marginBottom = '10px';
+                    disclaimerList.appendChild(listItem);
+                });
+                
+                disclaimerSection.appendChild(disclaimerList);
+            })
+            .catch(error => {
+                console.error('Error fetching disclaimer:', error);
+            });
     });
-   </script>
+</script>
 </body>
 </html>
-EOL
