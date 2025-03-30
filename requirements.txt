@@ -3,3 +3,10 @@ Werkzeug==2.2.3
 Flask-Cors==3.0.10
 gunicorn==21.2.0
 EOL
+Flask==2.2.5
+Werkzeug==2.2.3
+Flask-Cors==3.0.10
+google-generativeai==0.3.0
+gunicorn==21.2.0
+python-dotenv==1.0.0
+EOL
